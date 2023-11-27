@@ -1,7 +1,3 @@
-# Animated Pastiche Ideation
+# Brainstorm
 
-## Step One
-
-## Step Two
-
-## Step Three
+Paste your brainstorm page here. 
