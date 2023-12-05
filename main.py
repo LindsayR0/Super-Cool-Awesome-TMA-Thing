@@ -1,4 +1,5 @@
 from vpython import *
+import winsound
 
 scene.background = vector(77/255,102/255,75/255)
 scene.center = vector(-1,3,2) #positions the camera
@@ -15,12 +16,18 @@ screw_clr = vector(49/255,55/255,47/255)
 
 #function that is run whenever the mouse is down
 def buttonPress():
+    i = 0
     for b in buttons: #itterates through each item in the dictionary buttons
         if scene.mouse.pick == buttons[b]: #if the mouse is pointing at one of the buttons
-            if buttons[b].pos.y == 0.125: #functionaly: if the button is up
-                buttons[b].pos.y = 0.025 #moves the button down
-            else: #functionaly: if the button is down
-                buttons[b].pos.y = 0.125 #moves the button up
+            buttons[b].pos.y = 0.025 #moves the button down
+            #plays sound "Hello Jon"
+            winsound.PlaySound('audios/HelloJon.wav', winsound.SND_FILENAME)
+            #while loop functionaly forces the code to wait until the audio has finished
+            while i < (29*20):
+                rate(20)
+                i = i+1
+            buttons[b].pos.y = 0.125 #moves the button back up
+            button_press_counter += 1
 
 class Tape: #creates a class for the tape
     def __init__(self, tape_pos): #constuctor method with the parmamiter for the tape's position
@@ -125,6 +132,8 @@ buttons = {
     'button5': box(size = vector(0.25,0.75,0.5), pos = vector(0.45, 0.125, 1.75), color = button_clr2),
     'button6': box(size = vector(0.25,0.75,0.5), pos = vector(0.75, 0.125, 1.75), color = button_clr2) 
     }
+
+button_press_counter = 0
 
 while True:
     rate(20)
