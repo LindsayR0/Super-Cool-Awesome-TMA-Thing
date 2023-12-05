@@ -1,14 +1,17 @@
 from vpython import *
 
+scene.background = vector(77/255,102/255,75/255)
 scene.center = vector(-1,3,2) #positions the camera
 scene.camera.axis = vector(1.5, -6, -5) #rotates the camera
 
-player_clr = color.white
-speaker_clr = color.black
-handle_clr = color.blue
+#color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
+player_clr = vector(2/255,6/255,4/255)
+speaker_clr = vector(0.5,0.5,0.5)
+#color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
+handle_clr = vector(13/255, 85/255, 53/255)
 button_clr1 = color.red
-button_clr2 = color.yellow
-screw_clr = color.black
+button_clr2 = vector(66/255,74/255,64/255)
+screw_clr = vector(49/255,55/255,47/255)
 
 #function that is run whenever the mouse is down
 def buttonPress():
@@ -21,53 +24,63 @@ def buttonPress():
 
 class Tape: #creates a class for the tape
     def __init__(self, tape_pos): #constuctor method with the parmamiter for the tape's position
+        self.base_clr = color.yellow
+        #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
+        self.side_clr = vector(195/255,197/255,196/255)
+        #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
+        self.sticker_clr = vector(29/255,124/255,59/255)
+        self.label_clr = color.white
+        self.left_wheel_txr = color.green
+        self.center_wheel_txr = color.green
+        self.right_wheel_txr = color.red
+        
         #creates the base of the tape
-        self.base = box(size = vector(0.9, 0.001, 0.4), color = color.yellow,
+        self.base = box(size = vector(0.9, 0.001, 0.4), color = self.base_clr,
             pos = (vector(0, -0.1045, 0) + tape_pos))
         #creates the left side of the tape
-        self.left = box(size = vector(0.3, 0.2, 0.8), color = color.black,
+        self.left = box(size = vector(0.3, 0.2, 0.8), color = self.side_clr,
             pos = (vector(-0.6, 0, 0) + tape_pos))
         #creates right side of the tape
-        self.right = box(size = vector(0.3, 0.2, 0.8), color = color.black,
+        self.right = box(size = vector(0.3, 0.2, 0.8), color = self.side_clr,
             pos = (vector(0.6, 0, 0) + tape_pos))
         #creates top side of the tape
-        self.top = box(size = vector(0.9, 0.2, 0.2), color = color.black,
+        self.top = box(size = vector(0.9, 0.2, 0.2), color = self.side_clr,
             pos = (vector(0, 0, -0.3) + tape_pos))
         #creates bottom side of the tape
-        self.bottom = box(size = vector(0.9, 0.2, 0.2), color = color.black,
+        self.bottom = box(size = vector(0.9, 0.2, 0.2), color = self.side_clr,
             pos = (vector(0, 0, 0.3) + tape_pos))
         #creates the left edge of the sticker on the tape
-        self.stickerL = box(size = vector(0.2, 0.01, 0.6), color = color.green,
+        self.stickerL = box(size = vector(0.2, 0.01, 0.6), color = self.sticker_clr,
             pos = (vector(-0.55, 0.105, 0) + tape_pos))
         #creates the right edge of the sticer on the tape
-        self.stickerR = box(size = vector(0.2, 0.01, 0.6), color = color.green,
+        self.stickerR = box(size = vector(0.2, 0.01, 0.6), color = self.sticker_clr,
             pos = (vector(0.55, 0.105, 0) + tape_pos))
         #creates label on the tape
-        self.sticker_label = box(size = vector(0.9, 0.01, 0.2), color = color.white,
+        self.sticker_label = box(size = vector(0.9, 0.01, 0.2), color = self.label_clr,
             pos = (vector(0, 0.105, -0.2) + tape_pos))
         #creates bottom of the sticker on the tape
-        self.sticker_bottom = box(size = vector(0.9, 0.01, 0.1), color = color.green,
+        self.sticker_bottom = box(size = vector(0.9, 0.01, 0.1), color = self.sticker_clr,
             pos = (vector(0, 0.105, 0.25) + tape_pos))
         #creates a middle section on the tape
-        self.sticker_mid = box(size = vector(0.9, 0.01, 0.02), color = color.green,
+        self.sticker_mid = box(size = vector(0.9, 0.01, 0.02), color = self.sticker_clr,
             pos = (vector(0, 0.105, -0.09) + tape_pos))
         #list containing shapes for the left wheel in the tape
         self.wheel_left = [
             #base of left wheel
-            cylinder(radius = 0.3, length = 0.18, color = color.white,
+            cylinder(radius = 0.3, length = 0.18, color = self.left_wheel_txr,
                 pos = (vector(-0.3,-0.1,0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi),
             #top of left wheel
-            cylinder(radius = 0.08, length = 0.2, color = color.green,
+            cylinder(radius = 0.08, length = 0.2, color = self.center_wheel_txr,
                 pos = (vector(-0.3, -0.1, 0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi)
             ]
 
         #list containing shapes for the right wheel in the tape
         self.wheel_right = [
             #base of right wheel
-            cylinder(radius = 0.24, length = 0.18, color = color.red,
+            cylinder(radius = 0.24, length = 0.18, color = self.right_wheel_txr,
                 pos = (vector(0.3,-0.1,0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi),
             #top of right wheel
-            cylinder(radius = 0.08, length = 0.2, color = color.green,
+            cylinder(radius = 0.08, length = 0.2, color = self.center_wheel_txr,
                 pos = (vector(0.3, -0.1, 0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi)
             ]
 
@@ -115,7 +128,7 @@ buttons = {
 
 while True:
     rate(20)
-    scene.bind('mousedown', buttonPress)
+    scene.bind('click', buttonPress)
 
 
 #winsound library for audio
