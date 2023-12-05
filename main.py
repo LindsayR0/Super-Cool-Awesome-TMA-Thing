@@ -16,18 +16,19 @@ screw_clr = vector(49/255,55/255,47/255)
 
 #function that is run whenever the mouse is down
 def buttonPress():
-    i = 0
     for b in buttons: #itterates through each item in the dictionary buttons
         if scene.mouse.pick == buttons[b]: #if the mouse is pointing at one of the buttons
             buttons[b].pos.y = 0.025 #moves the button down
-            #plays sound "Hello Jon"
-            winsound.PlaySound('audios/HelloJon.wav', winsound.SND_FILENAME)
-            #while loop functionaly forces the code to wait until the audio has finished
-            while i < (29*20):
-                rate(20)
-                i = i+1
-            buttons[b].pos.y = 0.125 #moves the button back up
-            button_press_counter += 1
+            if b == 'button1': #if the button pushed is button1
+                #plays sound "Hello Jon"
+                winsound.PlaySound('audios/HelloJon.wav', winsound.SND_FILENAME)
+            else:
+                if b == 'button2': #if the button pushed is button2
+                    #playes sound "I OPEN THE DOOR"
+                    winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_FILENAME)
+                else:
+                    winsound.PlaySound('SystemQuestion', winsound.SND_FILENAME)
+            buttons[b].pos.y = 0.125 #moves the button back up once audio is finished
 
 class Tape: #creates a class for the tape
     def __init__(self, tape_pos): #constuctor method with the parmamiter for the tape's position
@@ -37,7 +38,7 @@ class Tape: #creates a class for the tape
         #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
         self.sticker_clr = vector(29/255,124/255,59/255)
         self.label_clr = color.white
-        self.left_wheel_txr = color.green
+        self.left_wheel_txr = color.white
         self.center_wheel_txr = color.green
         self.right_wheel_txr = color.red
         
