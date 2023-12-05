@@ -1,10 +1,11 @@
 from vpython import *
 import winsound
 
-scene.background = vector(77/255,102/255,75/255)
+scene.background = vector(77/255,102/255,75/255) #colors the background a desaturated green
 scene.center = vector(-1,3,2) #positions the camera
 scene.camera.axis = vector(1.5, -6, -5) #rotates the camera
 
+#VARIABLES FOR COLORS
 #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
 player_clr = vector(2/255,6/255,4/255)
 speaker_clr = vector(0.5,0.5,0.5)
@@ -20,18 +21,24 @@ def buttonPress():
         if scene.mouse.pick == buttons[b]: #if the mouse is pointing at one of the buttons
             buttons[b].pos.y = 0.025 #moves the button down
             if b == 'button1': #if the button pushed is button1
-                #plays sound "Hello Jon"
-                winsound.PlaySound('audios/HelloJon.wav', winsound.SND_FILENAME)
+                #INDEPENDENT RESEARCH
+                #learned how to use the winsound library here:
+                #https://www.geeksforgeeks.org/python-winsound-module/
+                #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
+                #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
+                winsound.PlaySound('audios/HelloJon.wav', winsound.SND_FILENAME) #plays sound "Hello Jon"
             else:
                 if b == 'button2': #if the button pushed is button2
-                    #playes sound "I OPEN THE DOOR"
-                    winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_FILENAME)
+                    #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
+                    #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
+                    winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_FILENAME) #playes sound "I OPEN THE DOOR"
                 else:
                     winsound.PlaySound('SystemQuestion', winsound.SND_FILENAME)
             buttons[b].pos.y = 0.125 #moves the button back up once audio is finished
 
 class Tape: #creates a class for the tape
     def __init__(self, tape_pos): #constuctor method with the parmamiter for the tape's position
+        #COLORS AND TEXTURES USED FOR THE TAPE
         self.base_clr = color.yellow
         #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
         self.side_clr = vector(195/255,197/255,196/255)
@@ -42,6 +49,7 @@ class Tape: #creates a class for the tape
         self.center_wheel_txr = color.green
         self.right_wheel_txr = color.red
         
+        #OJECTS FOR SHELL OF TAPE
         #creates the base of the tape
         self.base = box(size = vector(0.9, 0.001, 0.4), color = self.base_clr,
             pos = (vector(0, -0.1045, 0) + tape_pos))
@@ -57,6 +65,8 @@ class Tape: #creates a class for the tape
         #creates bottom side of the tape
         self.bottom = box(size = vector(0.9, 0.2, 0.2), color = self.side_clr,
             pos = (vector(0, 0, 0.3) + tape_pos))
+        
+        #OBJECTS FOR STICKER ON TAPE
         #creates the left edge of the sticker on the tape
         self.stickerL = box(size = vector(0.2, 0.01, 0.6), color = self.sticker_clr,
             pos = (vector(-0.55, 0.105, 0) + tape_pos))
@@ -69,9 +79,10 @@ class Tape: #creates a class for the tape
         #creates bottom of the sticker on the tape
         self.sticker_bottom = box(size = vector(0.9, 0.01, 0.1), color = self.sticker_clr,
             pos = (vector(0, 0.105, 0.25) + tape_pos))
-        #creates a middle section on the tape
+        #creates a middle section on the sticker on the tape
         self.sticker_mid = box(size = vector(0.9, 0.01, 0.02), color = self.sticker_clr,
             pos = (vector(0, 0.105, -0.09) + tape_pos))
+        
         #list containing shapes for the left wheel in the tape
         self.wheel_left = [
             #base of left wheel
@@ -92,6 +103,7 @@ class Tape: #creates a class for the tape
                 pos = (vector(0.3, -0.1, 0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi)
             ]
 
+#OBJECTS FOR PLAYER
 #creates the top of the player base
 player_base_top = box(size = vector(2,1,2), pos = vector(0, 0, -0.5), color = player_clr)
 #creates the left side of the player base
@@ -112,6 +124,7 @@ speaker = box(size = vector(1.5,0.2,1.5), pos = vector(0,0.5,-0.5), color = spea
 #creates the tape by calling the Tape class and gives the positon for the tape
 Tape(vector(0, 0.445, 0.9))
 
+#OBJECTS FOR HANDLE
 #creates left side of handle
 handle_left = box(size = vector(0.1,0.3,1), pos = vector(-1.05,-0.125,2.3), color = handle_clr)
 #creates right side of handle
@@ -119,8 +132,11 @@ handle_right = box(size = vector(0.1,0.3,1), pos = vector(1.05,-0.125,2.3), colo
 #creates top of handle
 handle_top = box(size = vector(2, 0.3, 0.1), pos = vector(0,-0.125,2.75), color = handle_clr)
 
+#SCREWS
+#creates left screw for the handle
 screw_left = cylinder(radius = 0.05, length = 0.02, pos = vector(-1.12,-0.125,1.925),
     color = screw_clr)
+#creates right screw for the handle
 screw_right = cylinder(radius = 0.05, length = 0.02, pos = vector(1.12,-0.125,1.925),
     color = screw_clr)
 
@@ -133,8 +149,6 @@ buttons = {
     'button5': box(size = vector(0.25,0.75,0.5), pos = vector(0.45, 0.125, 1.75), color = button_clr2),
     'button6': box(size = vector(0.25,0.75,0.5), pos = vector(0.75, 0.125, 1.75), color = button_clr2) 
     }
-
-button_press_counter = 0
 
 while True:
     rate(20)
