@@ -1,5 +1,6 @@
 from vpython import *
 import winsound
+import time
 
 scene.background = vector(77/255,102/255,75/255) #colors the background a desaturated green
 scene.center = vector(-1,3,2) #positions the camera
@@ -151,18 +152,20 @@ def buttonPress():
                 #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
                 #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
                 winsound.PlaySound('audios/HelloJon.wav', winsound.SND_ASYNC) #plays sound "Hello Jon"
+                time.sleep(29) #waits length of audio to put button back up
             else:
                 if b == 'button2': #if the button pushed is button2
                     #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
                     #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
                     winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_ASYNC) #playes sound "I OPEN THE DOOR"
+                    time.sleep(50) #waits length of audio to put button back up
                 else:
                     winsound.PlaySound('SystemQuestion', winsound.SND_ASYNC)
-
+        buttons[b].pos.y = 0.125 #puts button back up in origonal position
 
 while True:
-    rate(40)
-    scene.bind('mousedown', buttonPress)
+    rate(20)
+    scene.bind('click', buttonPress)
     tape_player.Spin(2)
 
 #winsound library for audio
