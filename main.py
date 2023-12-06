@@ -15,27 +15,6 @@ button_clr1 = color.red
 button_clr2 = vector(66/255,74/255,64/255)
 screw_clr = vector(49/255,55/255,47/255)
 
-#function that is run whenever the mouse is down
-def buttonPress():
-    for b in buttons: #itterates through each item in the dictionary buttons
-        if scene.mouse.pick == buttons[b]: #if the mouse is pointing at one of the buttons
-            buttons[b].pos.y = 0.025 #moves the button down
-            if b == 'button1': #if the button pushed is button1
-                #INDEPENDENT RESEARCH
-                #learned how to use the winsound library here:
-                #https://www.geeksforgeeks.org/python-winsound-module/
-                #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
-                #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
-                winsound.PlaySound('audios/HelloJon.wav', winsound.SND_FILENAME) #plays sound "Hello Jon"
-            else:
-                if b == 'button2': #if the button pushed is button2
-                    #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
-                    #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
-                    winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_FILENAME) #playes sound "I OPEN THE DOOR"
-                else:
-                    winsound.PlaySound('SystemQuestion', winsound.SND_FILENAME)
-            buttons[b].pos.y = 0.125 #moves the button back up once audio is finished
-
 class Tape: #creates a class for the tape
     def __init__(self, tape_pos): #constuctor method with the parmamiter for the tape's position
         #COLORS AND TEXTURES USED FOR THE TAPE
@@ -83,29 +62,34 @@ class Tape: #creates a class for the tape
         self.sticker_mid = box(size = vector(0.9, 0.01, 0.02), color = self.sticker_clr,
             pos = (vector(0, 0.105, -0.09) + tape_pos))
         
-        #list containing shapes for the left wheel in the tape
-        self.wheel_left = [
-            #base of left wheel
-            cylinder(radius = 0.3, length = 0.18, texture = self.left_wheel_txr,
-                pos = (vector(-0.3,-0.1,0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi),
-            #top of left wheel
-            cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
-                pos = (vector(-0.3, -0.1, 0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi)
-            ]
+        #left wheel in the tape
+        #base of left wheel
+        self.wheel_baseL = cylinder(radius = 0.3, length = 0.18, texture = self.left_wheel_txr,
+            pos = (vector(-0.3,-0.1,0.06) + tape_pos))
+        self.wheel_baseL.rotate(axis = vector(0,0,1), angle = 0.5*pi)
+        #top of left wheel
+        self.wheel_topL = cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
+            pos = (vector(-0.3, -0.1, 0.06) + tape_pos))
+        self.wheel_topL.rotate(axis = vector(0,0,1), angle = 0.5*pi)
 
-        #list containing shapes for the right wheel in the tape
-        self.wheel_right = [
-            #base of right wheel
-            cylinder(radius = 0.24, length = 0.18, texture = self.right_wheel_txr,
-                pos = (vector(0.3,-0.1,0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi),
-            #top of right wheel
-            cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
-                pos = (vector(0.3, -0.1, 0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi)
-            ]
+        #right wheel in the tape
+        #base of right wheel
+        self.wheel_baseR = cylinder(radius = 0.24, length = 0.18, texture = self.right_wheel_txr,
+            pos = (vector(0.3,-0.1,0.06) + tape_pos))
+        self.wheel_baseR.rotate(axis = vector(0,0,1), angle = 0.5*pi)
+        #top of right wheel
+        self.wheel_topR = cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
+            pos = (vector(0.3, -0.1, 0.06) + tape_pos))
+        self.wheel_topR.rotate(axis = vector(0,0,1), angle = 0.5*pi)
     
-    def Spin(self, spn):
-        for part in self.wheel_left:
-            part.rotate(angle = (spn*(pi/6)), axis = vector(0,1,0))
+    def Spin(self, spn): #creates method that spins the wheels on the tape
+        #rotates left wheel
+        self.wheel_baseL.rotate(angle = (spn/50))
+        self.wheel_topL.rotate(angle = (spn/50))
+
+        #rotates right wheel
+        self.wheel_baseR.rotate(angle = (spn/50))
+        self.wheel_topR.rotate(angle = (spn/50))
 
 #OBJECTS FOR PLAYER
 #creates the top of the player base
@@ -126,7 +110,7 @@ player_bottom = box(size = vector(2,0.75,3), pos = vector(0,-0.125,0.6), color =
 #creates the speaker
 speaker = box(size = vector(1.5,0.2,1.5), pos = vector(0,0.5,-0.5), color = speaker_clr)
 #creates the tape by calling the Tape class and gives the positon for the tape
-Tape(vector(0, 0.445, 0.9))
+tape_player = Tape(vector(0, 0.445, 0.9))
 
 #OBJECTS FOR HANDLE
 #creates left side of handle
@@ -154,12 +138,32 @@ buttons = {
     'button6': box(size = vector(0.25,0.75,0.5), pos = vector(0.75, 0.125, 1.75), color = button_clr2) 
     }
 
-i = 0
+#function that is run whenever the mouse is down
+def buttonPress():
+    i = 0
+    for b in buttons: #itterates through each item in the dictionary buttons
+        if scene.mouse.pick == buttons[b]: #if the mouse is pointing at one of the buttons
+            buttons[b].pos.y = 0.025 #moves the button down
+            if b == 'button1': #if the button pushed is button1
+                #INDEPENDENT RESEARCH
+                #learned how to use the winsound library here:
+                #https://www.geeksforgeeks.org/python-winsound-module/
+                #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
+                #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
+                winsound.PlaySound('audios/HelloJon.wav', winsound.SND_ASYNC) #plays sound "Hello Jon"
+            else:
+                if b == 'button2': #if the button pushed is button2
+                    #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
+                    #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
+                    winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_ASYNC) #playes sound "I OPEN THE DOOR"
+                else:
+                    winsound.PlaySound('SystemQuestion', winsound.SND_ASYNC)
+
+
 while True:
-    rate(20)
-    #scene.bind('click', buttonPress)
-    Tape.Spin(i)
-    i = i + 1
+    rate(40)
+    scene.bind('mousedown', buttonPress)
+    tape_player.Spin(2)
 
 #winsound library for audio
 #look into sleep
