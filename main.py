@@ -45,9 +45,9 @@ class Tape: #creates a class for the tape
         #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
         self.sticker_clr = vector(29/255,124/255,59/255)
         self.label_clr = color.white
-        self.left_wheel_txr = color.white
-        self.center_wheel_txr = color.green
-        self.right_wheel_txr = color.red
+        self.left_wheel_txr = 'assets/test_txr.png'
+        self.center_wheel_txr = 'assets/test_txr.png'
+        self.right_wheel_txr = 'assets/test_txr.png'
         
         #OJECTS FOR SHELL OF TAPE
         #creates the base of the tape
@@ -86,22 +86,26 @@ class Tape: #creates a class for the tape
         #list containing shapes for the left wheel in the tape
         self.wheel_left = [
             #base of left wheel
-            cylinder(radius = 0.3, length = 0.18, color = self.left_wheel_txr,
+            cylinder(radius = 0.3, length = 0.18, texture = self.left_wheel_txr,
                 pos = (vector(-0.3,-0.1,0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi),
             #top of left wheel
-            cylinder(radius = 0.08, length = 0.2, color = self.center_wheel_txr,
+            cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
                 pos = (vector(-0.3, -0.1, 0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi)
             ]
 
         #list containing shapes for the right wheel in the tape
         self.wheel_right = [
             #base of right wheel
-            cylinder(radius = 0.24, length = 0.18, color = self.right_wheel_txr,
+            cylinder(radius = 0.24, length = 0.18, texture = self.right_wheel_txr,
                 pos = (vector(0.3,-0.1,0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi),
             #top of right wheel
-            cylinder(radius = 0.08, length = 0.2, color = self.center_wheel_txr,
+            cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
                 pos = (vector(0.3, -0.1, 0.06) + tape_pos)).rotate(axis = vector(0,0,1), angle = 0.5*pi)
             ]
+    
+    def Spin(self, spn):
+        for part in self.wheel_left:
+            part.rotate(angle = (spn*(pi/6)), axis = vector(0,1,0))
 
 #OBJECTS FOR PLAYER
 #creates the top of the player base
@@ -150,10 +154,12 @@ buttons = {
     'button6': box(size = vector(0.25,0.75,0.5), pos = vector(0.75, 0.125, 1.75), color = button_clr2) 
     }
 
+i = 0
 while True:
     rate(20)
-    scene.bind('click', buttonPress)
-
+    #scene.bind('click', buttonPress)
+    Tape.Spin(i)
+    i = i + 1
 
 #winsound library for audio
 #look into sleep
