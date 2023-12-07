@@ -63,7 +63,7 @@ class Tape: #creates a class for the tape
         self.sticker_mid = box(size = vector(0.9, 0.01, 0.02), color = self.sticker_clr,
             pos = (vector(0, 0.105, -0.09) + tape_pos))
         
-        #left wheel in the tape
+        #OBJECTS FOR LEFT WHEEL
         #base of left wheel
         self.wheel_baseL = cylinder(radius = 0.3, length = 0.18, texture = self.left_wheel_txr,
             pos = (vector(-0.3,-0.1,0.06) + tape_pos))
@@ -73,7 +73,7 @@ class Tape: #creates a class for the tape
             pos = (vector(-0.3, -0.1, 0.06) + tape_pos))
         self.wheel_topL.rotate(axis = vector(0,0,1), angle = 0.5*pi)
 
-        #right wheel in the tape
+        #OBJECTS FOR RIGHT WHEEL
         #base of right wheel
         self.wheel_baseR = cylinder(radius = 0.24, length = 0.18, texture = self.right_wheel_txr,
             pos = (vector(0.3,-0.1,0.06) + tape_pos))
@@ -152,21 +152,23 @@ def buttonPress():
                 #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
                 #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
                 winsound.PlaySound('audios/HelloJon.wav', winsound.SND_ASYNC) #plays sound "Hello Jon"
-                time.sleep(29) #waits length of audio to put button back up
+                time.sleep(30) #waits length of audio +2 extra seconds to put button back up
             else:
                 if b == 'button2': #if the button pushed is button2
                     #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
                     #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
                     winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_ASYNC) #playes sound "I OPEN THE DOOR"
-                    time.sleep(50) #waits length of audio to put button back up
+                    time.sleep(51) #waits length of audio +2 extra seconds to put button back up
                 else:
-                    winsound.PlaySound('SystemQuestion', winsound.SND_ASYNC)
+                    if b == 'button3': #if the button pushed is button3
+                        #audio pulled from epiosode 001 of The Magnus Archives ("MAG001 - Angelerfish"),
+                        #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
+                        winsound.PlaySound('audios/TestTest123.wav', winsound.SND_ASYNC) #playes sound "Test Test 123"
+                        time.sleep(8) #waits length of audio +2 extra seconds to put button back up
         buttons[b].pos.y = 0.125 #puts button back up in origonal position
+    
 
 while True:
-    rate(20)
-    scene.bind('click', buttonPress)
-    tape_player.Spin(2)
-
-#winsound library for audio
-#look into sleep
+    rate(20) #sets frame rate to 20
+    scene.bind('click', buttonPress) #runs buttonPress function whenever the mouse is clicked
+    tape_player.Spin(2) #spins the wheels on the tape
