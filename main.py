@@ -183,9 +183,23 @@ def buttonPress():
                                 winsound.PlaySound('audios/EyeSpy.wav', winsound.SND_ASYNC) #playes the sound "Eye Spy" when the sixth button is pressed
                                 time.sleep(35) #waits length of audio +2 extra seconds to put button back up
         buttons[b].pos.y = 0.125 #puts button back up in origonal position
-    
 
-while True:
-    rate(20) #sets frame rate to 20
+fr = 20 #defines the framerate as 20 fps
+frame = 0 #initializes the frame number as 0
+
+#function that keeps track of the time left until the buttons will stop working in seconds
+def CountDown(countdown_frames, current_frame, framerate):
+    #calculates the time left by using the frames that there are until it stops working, the current frame number, and the framerate
+    time_left = floor((countdown_frames-current_frame)/framerate)
+    return(time_left) #returns the value for the amount of time left
+
+while frame <= 1800: #functionaly: until 90 seconds have passed
+    rate(fr) #sets frame rate according to fr
+    secs_left = CountDown(1800, frame, fr) #sets the varable "secs_left" to the ammount of seconds left as determined by the CountDown function
+    #creates a timer that displayes the ammount of seconds left
+    timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), box = False)
     scene.bind('click', buttonPress) #runs buttonPress function whenever the mouse is clicked
     tape_player.Spin(2) #spins the wheels on the tape
+    frame += 1 #adds one to the current frame number
+
+scene.unbind('click', buttonPress) #makes it so that the user can no longer click any of the buttons anymore
