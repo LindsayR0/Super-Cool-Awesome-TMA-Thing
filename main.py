@@ -171,6 +171,12 @@ def buttonPress():
                             #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
                             winsound.PlaySound('audios/StatementBegins.wav', winsound.SND_ASYNC) #playes the sound "Statement Begins"
                             time.sleep(11) #waits length of audio +2 extra seconds to put button back up
+                        else:
+                            if b == 'button5': #if the button pushed is button4
+                                #audio pulled from epiosode 001 of The Magnus Archives ("MAG001 - Angelerfish"),
+                                #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
+                                winsound.PlaySound('audios/EndRecording.wav', winsound.SND_ASYNC) #plays the sound "End Recording"
+                                time.sleep(4) #waits length of audio +2 extra seconds to put button back up
         buttons[b].pos.y = 0.125 #puts button back up in origonal position
     
 
