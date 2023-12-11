@@ -1,4 +1,5 @@
 from vpython import *
+from sounds import *
 import winsound
 import time
 
@@ -141,48 +142,12 @@ buttons = {
 
 #function that is run whenever the mouse is down
 def buttonPress():
-    i = 0
-    for b in buttons: #itterates through each item in the dictionary buttons
-        if scene.mouse.pick == buttons[b]: #if the mouse is pointing at one of the buttons
-            buttons[b].pos.y = 0.025 #moves the button down
-            if b == 'button1': #if the button pushed is button1
-                #INDEPENDENT RESEARCH
-                #learned how to use the winsound library here:
-                #https://www.geeksforgeeks.org/python-winsound-module/
-                #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
-                #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
-                winsound.PlaySound('audios/HelloJon.wav', winsound.SND_ASYNC) #plays sound "Hello Jon" when the first button is pressed
-                time.sleep(30) #waits length of audio +2 extra seconds to put button back up
-            else:
-                if b == 'button2': #if the button pushed is button2
-                    #audio pulled from epiosode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
-                    #which can be found at https://youtu.be/riLljv93IqQ?si=D-5vH8Gxl0ngLPzo
-                    winsound.PlaySound('audios/I_OPEN_THE_DOOR.wav', winsound.SND_ASYNC) #playes sound "I OPEN THE DOOR" when the second button is pressed
-                    time.sleep(51) #waits length of audio +2 extra seconds to put button back up
-                else:
-                    if b == 'button3': #if the button pushed is button3
-                        #audio pulled from epiosode 001 of The Magnus Archives ("MAG001 - Angelerfish"),
-                        #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
-                        winsound.PlaySound('audios/TestTest123.wav', winsound.SND_ASYNC) #playes sound "Test Test 123" when the third button is pressed
-                        time.sleep(8) #waits length of audio +2 extra seconds to put button back up
-                    else:
-                        if b == 'button4': #if the button pushed is button4
-                            #audio pulled from epiosode 001 of The Magnus Archives ("MAG001 - Angelerfish"),
-                            #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
-                            winsound.PlaySound('audios/StatementBegins.wav', winsound.SND_ASYNC) #playes the sound "Statement Begins" when the fourth button is pressed
-                            time.sleep(11) #waits length of audio +2 extra seconds to put button back up
-                        else:
-                            if b == 'button5': #if the button pushed is button5
-                                #audio pulled from epiosode 001 of The Magnus Archives ("MAG001 - Angelerfish"),
-                                #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
-                                winsound.PlaySound('audios/EndRecording.wav', winsound.SND_ASYNC) #plays the sound "End Recording" when the fifth button is pressed
-                                time.sleep(4) #waits length of audio +2 extra seconds to put button back up
-                            else: #functinoaly : if the button pushed is button6
-                                #audio pulled from episode 180 of The Madnus Archives ("MAG180 - Moving On"),
-                                #which can be found at https://www.youtube.com/watch?v=s9K_6B3RKBs
-                                winsound.PlaySound('audios/EyeSpy.wav', winsound.SND_ASYNC) #playes the sound "Eye Spy" when the sixth button is pressed
-                                time.sleep(35) #waits length of audio +2 extra seconds to put button back up
-        buttons[b].pos.y = 0.125 #puts button back up in origonal position
+    for audio in button_audios: #itterates through each item in the dictonary 'button_audios'
+        if scene.mouse.pick == buttons[audio]: #functionaly: if the mouse is pointing at one of the buttons
+            buttons[audio].pos.y = 0.025 #move the button that the mouse is pointing at down
+            winsound.PlaySound(button_audios[audio], winsound.SND_ASYNC) #play the sound associated with the current button
+            time.sleep(button_audio_length_sec[button_audios[audio]]) #functionaly waits to move on to the next line of code in the function until the audio is done playing
+            buttons[audio].pos.y = 0.125 #moves all buttons back up once audio is done playing
 
 fr = 20 #defines the framerate as 20 fps
 frame = 0 #initializes the frame number as 0
