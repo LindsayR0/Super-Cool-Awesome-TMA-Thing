@@ -142,15 +142,18 @@ buttons = {
 
 #function that is run whenever the mouse is down
 def buttonPress():
-    for audio in button_audios: #itterates through each item in the dictonary 'button_audios'
-        if scene.mouse.pick == buttons[audio]: #functionaly: if the mouse is pointing at one of the buttons
-            buttons[audio].pos.y = 0.025 #move the button that the mouse is pointing at down
-            winsound.PlaySound(button_audios[audio], winsound.SND_ASYNC) #play the sound associated with the current button
-            time.sleep(button_audio_length_sec[button_audios[audio]]) #functionaly waits to move on to the next line of code in the function until the audio is done playing
-            buttons[audio].pos.y = 0.125 #moves all buttons back up once audio is done playing
+    if secs_left > 0: #checks to see if the countdown has ended
+        for audio in button_audios: #itterates through each item in the dictonary 'button_audios'
+            if scene.mouse.pick == buttons[audio]: #functionaly: if the mouse is pointing at one of the buttons
+                buttons[audio].pos.y = 0.025 #move the button that the mouse is pointing at down
+                winsound.PlaySound(button_audios[audio], winsound.SND_ASYNC) #play the sound associated with the current button
+                time.sleep(button_audio_length_sec[button_audios[audio]]) #functionaly waits to move on to the next line of code in the function until the audio is done playing
+                buttons[audio].pos.y = 0.125 #moves all buttons back up once audio is done playing
 
 fr = 20 #defines the framerate as 20 fps
 frame = 0 #initializes the frame number as 0
+frames_until_done = 1800 #sets the countdown to 90 seconds, or 1800 frames
+secs_left = 90 #initilizes the seconds left at 90
 
 #function that keeps track of the time left until the buttons will stop working in seconds
 def CountDown(countdown_frames, current_frame, framerate):
@@ -158,13 +161,25 @@ def CountDown(countdown_frames, current_frame, framerate):
     time_left = floor((countdown_frames-current_frame)/framerate)
     return(time_left) #returns the value for the amount of time left
 
-while frame <= 1800: #functionaly: until 90 seconds have passed
-    rate(fr) #sets frame rate according to fr
-    secs_left = CountDown(1800, frame, fr) #sets the varable "secs_left" to the ammount of seconds left as determined by the CountDown function
-    #creates a timer that displayes the ammount of seconds left
-    timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), box = False)
-    scene.bind('click', buttonPress) #runs buttonPress function whenever the mouse is clicked
+while secs_left >= -75: #runs while loop until 75 seconds after the countdown ends
+    rate(fr) #sets framerate
+    secs_left = CountDown(frames_until_done, frame, fr) #sets the varable "secs_left" to the ammount of seconds left as determined by the CountDown function
     tape_player.Spin(2) #spins the wheels on the tape
-    frame += 1 #adds one to the current frame number
+    if secs_left > 0: #functionaly: until 90 seconds have passed
+        #creates a timer that displayes the ammount of seconds left
+        timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), box = False)
+        scene.bind('mousedown', buttonPress) #runs buttonPress function whenever the mouse is clicked
+    if secs_left <= 0: #functionaly: after 90 seconds have passed
+        timer = label(text = '', pos = vector(7,-0.2,-2.7), box = False) #makes the timer disapear
+        if frame == frames_until_done: #if the countdown just ended
+            for b in buttons: #itterates through each button
+                buttons[b].pos.y = 0.125 #pops current button back up
+            #audio pulled from https://www.youtube.com/watch?v=mVi7eVQRgH4
+            winsound.PlaySound('audios/TapeHiss.wav', winsound.SND_ASYNC) #begins to play the tape hiss sound effect
+        if frame == (frames_until_done + (60*fr)): #if 60 seconds have passed since the countdown ended
+            #audio pulled from https://www.youtube.com/watch?v=0ue0QZ2ED9w
+            winsound.PlaySound('audios/OhHello.wav', winsound.SND_ASYNC) #plays the sound "Oh Hello"
+            buttons['button1'].pos.y = 0.025 #pushes the first button down
+    frame += 1 #adds 1 to the frame number each loop
 
-scene.unbind('click', buttonPress) #makes it so that the user can no longer click any of the buttons anymore
+buttons['button1'].pos.y = 0.125 #pops the first button back up

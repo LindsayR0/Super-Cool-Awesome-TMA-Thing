@@ -4,7 +4,7 @@ button_audios = {
     'button1': 'audios/StatementBegins.wav',
     #audio pulled from episode 1 of The Magnus Archives ("MAG001 - Anglerfish"),
     #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
-    'button2': 'audios/EndRecording.wav''audios/HelloJon.wav',
+    'button2': 'audios/EndRecording.wav',
     #audio pulled from episode 1 of The Magnus Archives ("MAG001 - Anglerfish"),
     #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
     'button3': 'audios/TestTest123.wav',
@@ -20,10 +20,10 @@ button_audios = {
     }
 
 button_audio_length_sec = {
-    'audios/I_OPEN_THE_DOOR.wav': 55,
-    'audios/HelloJon.wav': 34,
-    'audios/EyeSpy.wav': 38,
-    'audios/TestTest123.wav': 11,
-    'audios/StatementBegins.wav': 14,
-    'audios/EndRecording.wav': 7
+    'audios/I_OPEN_THE_DOOR.wav': 50,
+    'audios/HelloJon.wav': 29,
+    'audios/EyeSpy.wav': 33,
+    'audios/TestTest123.wav': 6,
+    'audios/StatementBegins.wav': 9,
+    'audios/EndRecording.wav': 2
     }
