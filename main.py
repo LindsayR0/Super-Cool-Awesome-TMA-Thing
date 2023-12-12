@@ -146,6 +146,7 @@ def buttonPress():
     if secs_left > 0: #checks to see if the countdown has ended
         for audio in button_audios: #itterates through each item in the dictonary 'button_audios'
             if scene.mouse.pick == buttons[audio]: #functionaly: if the mouse is pointing at one of the buttons
+                instructions.text = '' #makes instructions disapear while audio is playing
                 buttons[audio].pos.y = 0.025 #move the button that the mouse is pointing at down
                 #INDEPENDENT RESEARCH
                 #I used https://www.geeksforgeeks.org/python-winsound-module/ to figure out how to use the winsound
@@ -153,11 +154,16 @@ def buttonPress():
                 winsound.PlaySound(button_audios[audio], winsound.SND_ASYNC) #play the sound associated with the current button
                 time.sleep(button_audio_length_sec[button_audios[audio]]) #functionaly waits to move on to the next line of code in the function until the audio is done playing
                 buttons[audio].pos.y = 0.125 #moves all buttons back up once audio is done playing
+                #gives user updated instructions on how to work the digital casset player
+                instructions.text = "Hover your mouse over a button to play the tape."
 
 fr = 20 #defines the framerate as 20 fps
 frame = 0 #initializes the frame number as 0
 frames_until_done = 1800 #sets the countdown to 90 seconds, or 1800 frames
 secs_left = 90 #initilizes the seconds left at 90
+
+#creates a label that gives user instructions on how to work the digital casset player
+instructions = label(text = "Click a button to play the tape.", pos = vector(-3.5,1,-2.27), box = False, align = 'left', color = player_clr)
 
 #function that keeps track of the time left until the buttons will stop working in seconds
 def CountDown(countdown_frames, current_frame, framerate):
@@ -172,9 +178,10 @@ while secs_left >= -75: #runs while loop until 75 seconds after the countdown en
     tape_player.Spin(2) #spins the wheels on the tape
     if secs_left > 0: #functionaly: until 90 seconds have passed
         #creates a timer that displayes the ammount of seconds left
-        timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), color = handle_clr, box = False)
+        timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), color = player_clr, box = False)
         scene.bind('mousedown', buttonPress) #runs buttonPress function whenever the mouse is clicked
     if secs_left <= 0: #functionaly: after 90 seconds have passed
+        instructions.text = '' #makes instructions disapear
         timer = label(text = '', pos = vector(7,-0.2,-2.7), box = False) #makes the timer disapear
         if frame == frames_until_done: #if the countdown just ended
             for b in buttons: #itterates through each button
