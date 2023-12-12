@@ -17,6 +17,7 @@ button_clr1 = color.red
 button_clr2 = vector(66/255,74/255,64/255)
 screw_clr = vector(49/255,55/255,47/255)
 
+#CLASSES-METHODS
 class Tape: #creates a class for the tape
     def __init__(self, tape_pos): #constuctor method with the parmamiter for the tape's position
         #COLORS AND TEXTURES USED FOR THE TAPE
@@ -146,6 +147,9 @@ def buttonPress():
         for audio in button_audios: #itterates through each item in the dictonary 'button_audios'
             if scene.mouse.pick == buttons[audio]: #functionaly: if the mouse is pointing at one of the buttons
                 buttons[audio].pos.y = 0.025 #move the button that the mouse is pointing at down
+                #INDEPENDENT RESEARCH
+                #I used https://www.geeksforgeeks.org/python-winsound-module/ to figure out how to use the winsound
+                #library to play audio in my project
                 winsound.PlaySound(button_audios[audio], winsound.SND_ASYNC) #play the sound associated with the current button
                 time.sleep(button_audio_length_sec[button_audios[audio]]) #functionaly waits to move on to the next line of code in the function until the audio is done playing
                 buttons[audio].pos.y = 0.125 #moves all buttons back up once audio is done playing
@@ -159,6 +163,7 @@ secs_left = 90 #initilizes the seconds left at 90
 def CountDown(countdown_frames, current_frame, framerate):
     #calculates the time left by using the frames that there are until it stops working, the current frame number, and the framerate
     time_left = floor((countdown_frames-current_frame)/framerate)
+    #RETURN
     return(time_left) #returns the value for the amount of time left
 
 while secs_left >= -75: #runs while loop until 75 seconds after the countdown ends
