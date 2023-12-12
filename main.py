@@ -172,7 +172,7 @@ while secs_left >= -75: #runs while loop until 75 seconds after the countdown en
     tape_player.Spin(2) #spins the wheels on the tape
     if secs_left > 0: #functionaly: until 90 seconds have passed
         #creates a timer that displayes the ammount of seconds left
-        timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), box = False)
+        timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), color = handle_clr, box = False)
         scene.bind('mousedown', buttonPress) #runs buttonPress function whenever the mouse is clicked
     if secs_left <= 0: #functionaly: after 90 seconds have passed
         timer = label(text = '', pos = vector(7,-0.2,-2.7), box = False) #makes the timer disapear
