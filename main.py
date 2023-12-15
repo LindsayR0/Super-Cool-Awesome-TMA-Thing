@@ -26,7 +26,6 @@ class Tape: #creates a class for the tape
         self.side_clr = vector(195/255,197/255,196/255)
         #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
         self.sticker_clr = vector(29/255,124/255,59/255)
-        self.label_clr = color.white
         self.wheel_clr = vector(48/255,48/255,48/255)
         self.center_wheel_txr = 'assets/tape_wheel_txr.png'
         
@@ -55,7 +54,7 @@ class Tape: #creates a class for the tape
         self.stickerR = box(size = vector(0.2, 0.01, 0.6), color = self.sticker_clr,
             pos = (vector(0.55, 0.105, 0) + tape_pos))
         #creates label on the tape
-        self.sticker_label = box(size = vector(0.9, 0.01, 0.2), color = self.label_clr,
+        self.sticker_label = box(size = vector(0.9, 0.01, 0.2), texture = 'assets/Blank_Label.png',
             pos = (vector(0, 0.105, -0.2) + tape_pos))
         #creates bottom of the sticker on the tape
         self.sticker_bottom = box(size = vector(0.9, 0.01, 0.1), color = self.sticker_clr,
@@ -85,9 +84,9 @@ class Tape: #creates a class for the tape
         self.wheel_topR.rotate(axis = vector(0,0,1), angle = 0.5*pi)
     
     def Spin(self, spn): #creates method that spins the wheels on the tape
-        self.wheel_topL.rotate(angle = (spn/50))
-        self.wheel_topR.rotate(angle = (spn/50))
-
+        self.wheel_topL.rotate(angle = (spn/50)) #rotates the top of the left wheel
+        self.wheel_topR.rotate(angle = (spn/50)) #rotates the top of the right wheel
+        
 #OBJECTS FOR PLAYER
 #creates the top of the player base
 player_base_top = box(size = vector(2,1,2), pos = vector(0, 0, -0.5), color = player_clr)
