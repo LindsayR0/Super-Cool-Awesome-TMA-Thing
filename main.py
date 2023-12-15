@@ -21,15 +21,14 @@ screw_clr = vector(49/255,55/255,47/255)
 class Tape: #creates a class for the tape
     def __init__(self, tape_pos): #constuctor method with the parmamiter for the tape's position
         #COLORS AND TEXTURES USED FOR THE TAPE
-        self.base_clr = color.yellow
+        self.base_clr = vector(0,0,0)
         #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
         self.side_clr = vector(195/255,197/255,196/255)
         #color picked from image found at https://en.wikipedia.org/wiki/The_Magnus_Archives
         self.sticker_clr = vector(29/255,124/255,59/255)
         self.label_clr = color.white
-        self.left_wheel_txr = 'assets/test_txr.png'
-        self.center_wheel_txr = 'assets/test_txr.png'
-        self.right_wheel_txr = 'assets/test_txr.png'
+        self.wheel_clr = vector(48/255,48/255,48/255)
+        self.center_wheel_txr = 'assets/tape_wheel_txr.png'
         
         #OJECTS FOR SHELL OF TAPE
         #creates the base of the tape
@@ -67,31 +66,26 @@ class Tape: #creates a class for the tape
         
         #OBJECTS FOR LEFT WHEEL
         #base of left wheel
-        self.wheel_baseL = cylinder(radius = 0.3, length = 0.18, texture = self.left_wheel_txr,
+        self.wheel_baseL = cylinder(radius = 0.3, length = 0.18, color = self.wheel_clr,
             pos = (vector(-0.3,-0.1,0.06) + tape_pos))
         self.wheel_baseL.rotate(axis = vector(0,0,1), angle = 0.5*pi)
         #top of left wheel
-        self.wheel_topL = cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
-            pos = (vector(-0.3, -0.1, 0.06) + tape_pos))
+        self.wheel_topL = cylinder(radius = 0.3, length = 0.01, texture = self.center_wheel_txr,
+            pos = (vector(-0.3, 0.08, 0.06) + tape_pos))
         self.wheel_topL.rotate(axis = vector(0,0,1), angle = 0.5*pi)
 
         #OBJECTS FOR RIGHT WHEEL
         #base of right wheel
-        self.wheel_baseR = cylinder(radius = 0.24, length = 0.18, texture = self.right_wheel_txr,
+        self.wheel_baseR = cylinder(radius = 0.24, length = 0.18, color = self.wheel_clr,
             pos = (vector(0.3,-0.1,0.06) + tape_pos))
         self.wheel_baseR.rotate(axis = vector(0,0,1), angle = 0.5*pi)
         #top of right wheel
-        self.wheel_topR = cylinder(radius = 0.08, length = 0.2, texture = self.center_wheel_txr,
-            pos = (vector(0.3, -0.1, 0.06) + tape_pos))
+        self.wheel_topR = cylinder(radius = 0.24, length = 0.01, texture = self.center_wheel_txr,
+            pos = (vector(0.3, 0.08, 0.06) + tape_pos))
         self.wheel_topR.rotate(axis = vector(0,0,1), angle = 0.5*pi)
     
     def Spin(self, spn): #creates method that spins the wheels on the tape
-        #rotates left wheel
-        self.wheel_baseL.rotate(angle = (spn/50))
         self.wheel_topL.rotate(angle = (spn/50))
-
-        #rotates right wheel
-        self.wheel_baseR.rotate(angle = (spn/50))
         self.wheel_topR.rotate(angle = (spn/50))
 
 #OBJECTS FOR PLAYER
@@ -159,8 +153,8 @@ def buttonPress():
 
 fr = 20 #defines the framerate as 20 fps
 frame = 0 #initializes the frame number as 0
-frames_until_done = (20*fr) #sets the countdown to 90 seconds, or 1800 frames
-secs_left = 20 #initilizes the seconds left at 90
+frames_until_done = (90*fr) #sets the countdown to 90 seconds, or 1800 frames
+secs_left = 90 #initilizes the seconds left at 90
 
 #creates a label that gives user instructions on how to work the digital casset player
 instructions = label(text = "Click a button to play the tape.", pos = vector(-3.5,1,-2.27), box = False, align = 'left', color = player_clr)
