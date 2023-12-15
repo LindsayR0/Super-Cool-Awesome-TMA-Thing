@@ -17,7 +17,7 @@ button_audios = {
     #which can be found at https://www.youtube.com/watch?v=s9K_6B3RKBs&t=18s
     'button5': 'audios/EyeSpy.wav',
     #audio pulled from episode 39 of The Magnus Archives ("MAG039 - Infestation"),
-    #which can be found at https://www.youtube.com/watch?v=riLljv93IqQ
+    #which can be found at https://www.youtube.com/watch?v=l8yOc1Tksh8&t=1s
     'button6': 'audios/NotAGhost.wav'
     }
 

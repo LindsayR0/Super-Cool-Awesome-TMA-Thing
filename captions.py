@@ -43,8 +43,8 @@ def TestTest123():
     caption.opacity = 0 #makes background box around caption invisable
     caption.text = "" #gets rid of caption text
 
-#captions taken from official transcript of episode 1 of The Magnus Archives ("MAG001 - Anglerfish"):
-#https://snarp.github.io/magnus_archives_transcripts/episode/001.html
+#captions taken from official transcript of episode 160 of The Magnus Archives ("MAG160 - The Eye Opens"):
+#https://snarp.github.io/magnus_archives_transcripts/episode/160.html
 def HelloJon():
     caption.opacity = 0.66 #makes background box behind caption semi-transparent
     caption.text = """JON <i>(STATEMENT)</i>: Hello, Jon
@@ -66,8 +66,8 @@ def HelloJon():
     caption.opacity = 0 #makes background box around caption invisable
     caption.text = "" #gets rid of caption text
 
-#captions taken from official transcript of episode 1 of The Magnus Archives ("MAG001 - Anglerfish"):
-#https://snarp.github.io/magnus_archives_transcripts/episode/001.html
+#captions taken from official transcript of episode 180 of The Magnus Archives ("MAG180 - Moving On"):
+#https://snarp.github.io/magnus_archives_transcripts/episode/180.html
 def EyeSpy():
     caption.opacity = 0.66 #makes background box behind caption semi-transparent
     caption.text = "MARTIN: In fact, this time, when you start to… intone"
@@ -99,8 +99,8 @@ def EyeSpy():
     caption.opacity = 0 #makes background box around caption invisable
     caption.text = "" #gets rid of caption text
 
-#captions taken from official transcript of episode 1 of The Magnus Archives ("MAG001 - Anglerfish"):
-#https://snarp.github.io/magnus_archives_transcripts/episode/001.html
+#captions taken from official transcript of episode 39 of The Magnus Archives ("MAG039 - Infestation"):
+#https://snarp.github.io/magnus_archives_transcripts/episode/039.html
 def NotAGhost():
     caption.opacity = 0.66 #makes background box behind caption semi-transparent
     caption.text = """JON: You've been living in the Archives for four months,
