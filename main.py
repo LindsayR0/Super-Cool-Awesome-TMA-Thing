@@ -1,5 +1,5 @@
 from vpython import *
-from sounds import *
+from sounds import * #imports dictinaries ues to find the appropriate sounds and captions to play
 import winsound
 import time
 
@@ -143,7 +143,7 @@ buttons = {
 
 #function that is run whenever the mouse is down
 def buttonPress():
-    if secs_left > 0: #checks to see if the countdown has ended
+    if secs_left > 7: #checks to see if the countdown has ended, added 7 secs buffer time due to delays finding correct audio
         for audio in button_audios: #itterates through each item in the dictonary 'button_audios'
             if scene.mouse.pick == buttons[audio]: #functionaly: if the mouse is pointing at one of the buttons
                 instructions.text = '' #makes instructions disapear while audio is playing
@@ -152,15 +152,15 @@ def buttonPress():
                 #I used https://www.geeksforgeeks.org/python-winsound-module/ to figure out how to use the winsound
                 #library to play audio in my project
                 winsound.PlaySound(button_audios[audio], winsound.SND_ASYNC) #play the sound associated with the current button
-                time.sleep(button_audio_length_sec[button_audios[audio]]) #functionaly waits to move on to the next line of code in the function until the audio is done playing
+                buttonCaptions(button_audios[audio]) #plays appropriate captions for the audio
                 buttons[audio].pos.y = 0.125 #moves all buttons back up once audio is done playing
                 #gives user updated instructions on how to work the digital casset player
                 instructions.text = "Hover your mouse over a button to play the tape."
 
 fr = 20 #defines the framerate as 20 fps
 frame = 0 #initializes the frame number as 0
-frames_until_done = 1800 #sets the countdown to 90 seconds, or 1800 frames
-secs_left = 90 #initilizes the seconds left at 90
+frames_until_done = (20*fr) #sets the countdown to 90 seconds, or 1800 frames
+secs_left = 20 #initilizes the seconds left at 90
 
 #creates a label that gives user instructions on how to work the digital casset player
 instructions = label(text = "Click a button to play the tape.", pos = vector(-3.5,1,-2.27), box = False, align = 'left', color = player_clr)
@@ -172,7 +172,7 @@ def CountDown(countdown_frames, current_frame, framerate):
     #RETURN
     return(time_left) #returns the value for the amount of time left
 
-while secs_left >= -75: #runs while loop until 75 seconds after the countdown ends
+while secs_left >= -73: #runs while loop until 75 seconds after the countdown ends
     rate(fr) #sets framerate
     secs_left = CountDown(frames_until_done, frame, fr) #sets the varable "secs_left" to the ammount of seconds left as determined by the CountDown function
     tape_player.Spin(2) #spins the wheels on the tape
@@ -181,17 +181,26 @@ while secs_left >= -75: #runs while loop until 75 seconds after the countdown en
         timer = label(text = str(secs_left), pos = vector(7,-0.2,-2.7), color = player_clr, box = False)
         scene.bind('mousedown', buttonPress) #runs buttonPress function whenever the mouse is clicked
     if secs_left <= 0: #functionaly: after 90 seconds have passed
+        scene.unbind('mousedown', buttonPress) #makes it so that the user is no longer able to press the buttons
         instructions.text = '' #makes instructions disapear
         timer = label(text = '', pos = vector(7,-0.2,-2.7), box = False) #makes the timer disapear
-        if frame == frames_until_done: #if the countdown just ended
+        if secs_left > -60: #if the countdown just ended and "Oh Hello" has not started playing
             for b in buttons: #itterates through each button
                 buttons[b].pos.y = 0.125 #pops current button back up
-            #audio pulled from https://www.youtube.com/watch?v=mVi7eVQRgH4
-            winsound.PlaySound('audios/TapeHiss.wav', winsound.SND_ASYNC) #begins to play the tape hiss sound effect
+            caption.pos = vector(-20,-20,0) #moves the captions for the audios out of the way
+            #creates new label for the current caption to be displayed in while other one finishes playing
+            hiss_caption = label(text = "[TAPE HISSING]", box = False, pos = vector(0.5,-9,0))
+        if frame == frames_until_done: #if the timer just ran out
+                #audio pulled from https://www.youtube.com/watch?v=mVi7eVQRgH4
+                winsound.PlaySound('audios/TapeHiss.wav', winsound.SND_ASYNC) #begins to play the tape hiss sound effect
         if frame == (frames_until_done + (60*fr)): #if 60 seconds have passed since the countdown ended
+            hiss_caption.opacity = 0 #makes background box around the hiss caption invisable
+            hiss_caption.text = "" #gets rid of the hiss caption text
+            caption.pos = vector(0.5,-9,0) #moves the captions for the audios back
             #audio pulled from https://www.youtube.com/watch?v=0ue0QZ2ED9w
             winsound.PlaySound('audios/OhHello.wav', winsound.SND_ASYNC) #plays the sound "Oh Hello"
             buttons['button1'].pos.y = 0.025 #pushes the first button down
+            OhHello() #displays the captions for "Oh Hello"
     frame += 1 #adds 1 to the frame number each loop
 
 buttons['button1'].pos.y = 0.125 #pops the first button back up

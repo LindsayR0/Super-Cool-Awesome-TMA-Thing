@@ -1,3 +1,5 @@
+from captions import *
+
 button_audios = {
     #audio pulled from episode 1 of The Magnus Archives ("MAG001 - Anglerfish"),
     #which can be found at https://www.youtube.com/watch?v=AdiUHYacaRI
@@ -14,16 +16,27 @@ button_audios = {
     #audio pulled from episode 180 of The Magnus Archives ("MAG180 - Moving On"),
     #which can be found at https://www.youtube.com/watch?v=s9K_6B3RKBs&t=18s
     'button5': 'audios/EyeSpy.wav',
-    #audio pulled from episode 160 of The Magnus Archives ("MAG160 - The Eye Opens"),
-    #which can be found at https://www.youtube.com/watch?v=riLljv93IqQ&t=443s
-    'button6': 'audios/I_OPEN_THE_DOOR.wav'
+    #audio pulled from episode 160 of The Magnus Archives ("MAG039 - Infestation"),
+    #which can be found at https://www.youtube.com/watch?v=l8yOc1Tksh8
+    'button6': 'audios/NotAGhost.wav'
     }
 
-button_audio_length_sec = {
-    'audios/I_OPEN_THE_DOOR.wav': 50,
-    'audios/HelloJon.wav': 29,
-    'audios/EyeSpy.wav': 33,
-    'audios/TestTest123.wav': 6,
-    'audios/StatementBegins.wav': 9,
-    'audios/EndRecording.wav': 2
-    }
+def buttonCaptions(audio):
+    #functionaly: runs the function for the captions of "Statement Begins" when that audio is playing
+    if audio =='audios/StatementBegins.wav':
+        StatementBegins()
+    #functionaly: runs the function for the captions of "End Recording" when that audio is playing
+    if audio == 'audios/EndRecording.wav':
+        EndRecording()
+    #functionaly: runs the function for the captions of "Test Test 123" when that audio is playing
+    if audio == 'audios/TestTest123.wav':
+        TestTest123()
+    #functionaly: runs the function for the captions of "Hello Jon" when that audio is playing
+    if audio == 'audios/HelloJon.wav':
+        HelloJon()
+    #functionaly: runs the function for the captions of "Eye Spy" when that audio is playing
+    if audio == 'audios/EyeSpy.wav':
+        EyeSpy()
+    #functionaly: runs the function for the captions of "Not A Ghost" when that audio is playing
+    if audio == 'audios/NotAGhost.wav':
+        NotAGhost()
